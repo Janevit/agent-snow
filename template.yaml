@@ -41,8 +41,6 @@ Resources:
       Role: !GetAtt AgentFunctionRole.Arn
       Environment:
         Variables:
-          OPENWEATHER_API_KEY: !Ref OpenWeatherAPIKey
-          PLACE_INDEX_NAME : !Ref LocationServicesPlacesIndex
 
   # An IAM role specifying the permissions provided to the Lambda function.
   AgentFunctionRole:
@@ -74,14 +72,4 @@ Resources:
                   - geo:SearchPlaceIndexForText
                   - geo:SearchPlaceIndexForPosition
                 Resource: !GetAtt LocationServicesPlacesIndex.Arn
-
-  # A resource policy for the Lamba Function that enables the agent to call the function. 
-  AgentFunctionInvocationPermission:
-    Type: AWS::Lambda::Permission
-    Properties:
-      FunctionName: !GetAtt AgentFunction.Arn
-      Action: lambda:InvokeFunction
-      Principal: bedrock.amazonaws.com
-      SourceAccount: !Ref 'AWS::AccountId'
-      SourceArn: !GetAtt BedrockAgent.AgentArn
 
